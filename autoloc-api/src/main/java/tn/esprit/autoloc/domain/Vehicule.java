@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "vehicule")
@@ -39,4 +41,23 @@ public class Vehicule {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private StatutVehicule statut;
+
+    // Vehicule * --- 1 Agence (côté propriétaire : porte la FK agence_id)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "agence_id", nullable = false)
+    private Agence agence;
+
+    // Vehicule * --- * Equipement (côté propriétaire : gère la table d'association)
+    @ManyToMany
+    @JoinTable(
+            name = "vehicule_equipement",
+            joinColumns = @JoinColumn(name = "vehicule_id"),
+            inverseJoinColumns = @JoinColumn(name = "equipement_id"))
+    private List<Equipement> equipements = new ArrayList<>();
+
+    // Vehicule 1 --- * Reservation (bidirectionnelle, côté inverse)
+    @OneToMany(mappedBy = "vehicule")
+    private List<Reservation> reservations = new ArrayList<>();
+
+    // Pas de liste de maintenances : Maintenance -> Vehicule est unidirectionnelle
 }

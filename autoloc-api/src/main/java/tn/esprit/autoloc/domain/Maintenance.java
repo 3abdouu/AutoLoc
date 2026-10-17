@@ -28,4 +28,9 @@ public class Maintenance {
 
     @Column(length = 500)
     private String description;
+
+    // Maintenance * ---> 1 Vehicule (unidirectionnelle : flèche vers Vehicule)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "vehicule_id", nullable = false)
+    private Vehicule vehicule;
 }
