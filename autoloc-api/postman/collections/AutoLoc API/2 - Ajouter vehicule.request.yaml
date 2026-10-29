@@ -1,0 +1,27 @@
+$kind: http-request
+method: POST
+url: '{{base_url}}/vehicules'
+order: 2000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "immatriculation": "123 TUN 4567",
+      "marque": "Peugeot",
+      "modele": "208",
+      "categorie": "CITADINE",
+      "tarifJournalier": 85.00,
+      "statut": "DISPONIBLE",
+      "agence": { "idAgence": {{idAgence}} }
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Vehicule créé avec un id", () => {
+        pm.response.to.have.status(200);
+        pm.expect(pm.response.json().idVehicule).to.be.a("number");
+      });

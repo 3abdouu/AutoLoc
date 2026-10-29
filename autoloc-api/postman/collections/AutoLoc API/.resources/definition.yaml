@@ -1,0 +1,8 @@
+$kind: collection
+name: AutoLoc API
+variables:
+  - key: base_url
+    value: 'http://localhost:8080/api'
+  - key: idAgence
+    value: '1'
+    description: Rempli automatiquement par "1 - Ajouter agence"

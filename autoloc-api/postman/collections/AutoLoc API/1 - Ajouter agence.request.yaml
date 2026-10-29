@@ -1,0 +1,21 @@
+$kind: http-request
+method: POST
+url: '{{base_url}}/agences'
+order: 1000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "nom": "AutoLoc Tunis Centre",
+      "ville": "Tunis",
+      "adresse": "12 avenue Habib Bourguiba",
+      "telephone": "71000000"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.collectionVariables.set("idAgence", pm.response.json().idAgence);
