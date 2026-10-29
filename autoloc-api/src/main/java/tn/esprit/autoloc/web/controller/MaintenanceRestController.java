@@ -1,5 +1,7 @@
 package tn.esprit.autoloc.web.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -9,32 +11,37 @@ import tn.esprit.autoloc.service.IMaintenanceService;
 import java.time.LocalDate;
 import java.util.List;
 
+@Tag(name = "Maintenance", description = "Gestion des maintenances")
 @RestController
-@RequestMapping("/api/maintenances")
+@RequestMapping("maintenances")
 @RequiredArgsConstructor
 public class MaintenanceRestController {
 
     private final IMaintenanceService maintenanceService;
 
     // GET /api/maintenances
+    @Operation(summary = "Lister toutes les maintenances")
     @GetMapping
     public List<Maintenance> getAllMaintenances() {
         return maintenanceService.getAllMaintenances();
     }
 
     // GET /api/maintenances/{id} : @PathVariable lit l'id dans l'URL
+    @Operation(summary = "Rechercher une maintenance par identifiant")
     @GetMapping("/{id}")
     public Maintenance getMaintenanceById(@PathVariable("id") Long idMaintenance) {
         return maintenanceService.getMaintenanceById(idMaintenance);
     }
 
     // POST /api/maintenances : @RequestBody convertit le JSON en Maintenance
+    @Operation(summary = "Ajouter une maintenance")
     @PostMapping
     public Maintenance createMaintenance(@RequestBody Maintenance maintenance) {
         return maintenanceService.createMaintenance(maintenance);
     }
 
     // PUT /api/maintenances/{id} : @PathVariable + @RequestBody
+    @Operation(summary = "Modifier une maintenance")
     @PutMapping("/{id}")
     public Maintenance updateMaintenance(@PathVariable("id") Long idMaintenance, @RequestBody Maintenance maintenance) {
         maintenance.setIdMaintenance(idMaintenance);
@@ -42,12 +49,14 @@ public class MaintenanceRestController {
     }
 
     // DELETE /api/maintenances/{id}
+    @Operation(summary = "Supprimer une maintenance")
     @DeleteMapping("/{id}")
     public void deleteMaintenance(@PathVariable("id") Long idMaintenance) {
         maintenanceService.deleteMaintenance(idMaintenance);
     }
 
     // GET /api/maintenances/en-cours : maintenances sans date de fin
+    @Operation(summary = "Lister les maintenances en cours")
     @GetMapping("/en-cours")
     public List<Maintenance> getMaintenancesEnCours() {
         return maintenanceService.getAllMaintenances().stream()
@@ -56,6 +65,7 @@ public class MaintenanceRestController {
     }
 
     // PATCH /api/maintenances/{id}/cloturer?dateFin=2026-10-30 : modification partielle
+    @Operation(summary = "Clôturer une maintenance")
     @PatchMapping("/{id}/cloturer")
     public Maintenance cloturerMaintenance(@PathVariable("id") Long idMaintenance,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFin) {
