@@ -4,7 +4,7 @@ description: |-
   CRUD des 9 entités (findAll, findById, create, update, deleteById). Lancer la collection dans l'ordre : les dossiers créent les données dont dépendent les suivants, le dernier dossier supprime tout en ordre inverse.
 variables:
   - key: base_url
-    value: 'http://localhost:8080/api'
+    value: 'http://localhost:8081/api'
   - key: idAgence
     value: '1'
     description: Rempli automatiquement par "Create Agence"
