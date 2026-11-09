@@ -1,0 +1,26 @@
+$kind: http-request
+method: POST
+url: '{{base_url}}/reservations'
+order: 1000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "dateDebut": "2026-12-01",
+      "dateFin": "2026-12-05",
+      "statut": "EN_ATTENTE",
+      "vehicule": { "idVehicule": {{idVehicule}} },
+      "client": { "idClient": {{idClient}} }
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Reservation créé(e) avec un id", () => {
+        pm.response.to.have.status(200);
+        pm.expect(pm.response.json().idReservation).to.be.a("number");
+      });
+      pm.collectionVariables.set("idReservation", pm.response.json().idReservation);

@@ -1,0 +1,12 @@
+$kind: http-request
+method: GET
+url: '{{base_url}}/agences/{{idAgence}}'
+order: 3000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Agence trouvé(e) par id", () => {
+        pm.response.to.have.status(200);
+        pm.expect(pm.response.json().idAgence).to.eql(Number(pm.collectionVariables.get("idAgence")));
+      });

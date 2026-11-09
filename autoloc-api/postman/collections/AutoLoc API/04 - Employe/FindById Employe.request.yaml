@@ -1,0 +1,12 @@
+$kind: http-request
+method: GET
+url: '{{base_url}}/employes/{{idEmploye}}'
+order: 3000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Employe trouvé(e) par id", () => {
+        pm.response.to.have.status(200);
+        pm.expect(pm.response.json().idEmploye).to.eql(Number(pm.collectionVariables.get("idEmploye")));
+      });

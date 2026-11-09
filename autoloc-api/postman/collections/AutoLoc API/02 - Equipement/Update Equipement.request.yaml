@@ -1,0 +1,21 @@
+$kind: http-request
+method: PUT
+url: '{{base_url}}/equipements/{{idEquipement}}'
+order: 4000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "libelle": "Siège bébé {{$randomInt}}"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Equipement modifié(e)", () => {
+        pm.response.to.have.status(200);
+        pm.expect(pm.response.json().idEquipement).to.eql(Number(pm.collectionVariables.get("idEquipement")));
+      });

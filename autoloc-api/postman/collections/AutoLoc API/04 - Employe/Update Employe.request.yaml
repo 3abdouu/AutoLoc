@@ -1,0 +1,24 @@
+$kind: http-request
+method: PUT
+url: '{{base_url}}/employes/{{idEmploye}}'
+order: 4000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "nom": "Trabelsi",
+      "prenom": "Sana",
+      "role": "MANAGER",
+      "agence": { "idAgence": {{idAgence}} }
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Employe modifié(e)", () => {
+        pm.response.to.have.status(200);
+        pm.expect(pm.response.json().idEmploye).to.eql(Number(pm.collectionVariables.get("idEmploye")));
+      });

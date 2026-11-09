@@ -1,0 +1,9 @@
+$kind: http-request
+method: DELETE
+url: '{{base_url}}/agences/{{idAgence}}'
+order: 9000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Agence supprimé(e)", () => pm.response.to.have.status(200));

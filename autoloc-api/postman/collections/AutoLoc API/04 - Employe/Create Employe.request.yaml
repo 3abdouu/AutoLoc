@@ -1,0 +1,25 @@
+$kind: http-request
+method: POST
+url: '{{base_url}}/employes'
+order: 1000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "nom": "Trabelsi",
+      "prenom": "Sana",
+      "role": "AGENT",
+      "agence": { "idAgence": {{idAgence}} }
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Employe créé(e) avec un id", () => {
+        pm.response.to.have.status(200);
+        pm.expect(pm.response.json().idEmploye).to.be.a("number");
+      });
+      pm.collectionVariables.set("idEmploye", pm.response.json().idEmploye);

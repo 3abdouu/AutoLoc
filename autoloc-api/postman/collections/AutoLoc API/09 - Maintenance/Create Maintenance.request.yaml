@@ -1,0 +1,24 @@
+$kind: http-request
+method: POST
+url: '{{base_url}}/maintenances'
+order: 1000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "dateDebut": "2026-11-10",
+      "description": "Vidange et changement des filtres",
+      "vehicule": { "idVehicule": {{idVehicule}} }
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Maintenance créé(e) avec un id", () => {
+        pm.response.to.have.status(200);
+        pm.expect(pm.response.json().idMaintenance).to.be.a("number");
+      });
+      pm.collectionVariables.set("idMaintenance", pm.response.json().idMaintenance);

@@ -1,0 +1,9 @@
+$kind: http-request
+method: DELETE
+url: '{{base_url}}/contrats/{{idContrat}}'
+order: 3000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Contrat supprimé(e)", () => pm.response.to.have.status(200));

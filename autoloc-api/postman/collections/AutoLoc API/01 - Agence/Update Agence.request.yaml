@@ -1,0 +1,24 @@
+$kind: http-request
+method: PUT
+url: '{{base_url}}/agences/{{idAgence}}'
+order: 4000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "nom": "AutoLoc Tunis Lac",
+      "ville": "Tunis",
+      "adresse": "Rue du Lac Biwa, Les Berges du Lac",
+      "telephone": "71111111"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Agence modifié(e)", () => {
+        pm.response.to.have.status(200);
+        pm.expect(pm.response.json().idAgence).to.eql(Number(pm.collectionVariables.get("idAgence")));
+      });

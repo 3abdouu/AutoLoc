@@ -1,0 +1,9 @@
+$kind: http-request
+method: DELETE
+url: '{{base_url}}/clients/{{idClient}}'
+order: 7000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Client supprimé(e)", () => pm.response.to.have.status(200));

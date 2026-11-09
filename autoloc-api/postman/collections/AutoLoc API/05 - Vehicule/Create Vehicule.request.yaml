@@ -1,7 +1,7 @@
 $kind: http-request
 method: POST
 url: '{{base_url}}/vehicules'
-order: 2000
+order: 1000
 headers:
   - key: Content-Type
     value: application/json
@@ -9,19 +9,21 @@ body:
   type: json
   content: |-
     {
-      "immatriculation": "123 TUN 4567",
+      "immatriculation": "{{$randomInt}} TUN {{$randomInt}}",
       "marque": "Peugeot",
       "modele": "208",
       "categorie": "CITADINE",
       "tarifJournalier": 85.00,
       "statut": "DISPONIBLE",
-      "agence": { "idAgence": {{idAgence}} }
+      "agence": { "idAgence": {{idAgence}} },
+      "equipements": [ { "idEquipement": {{idEquipement}} } ]
     }
 scripts:
   - type: afterResponse
     language: text/javascript
     code: |-
-      pm.test("Vehicule créé avec un id", () => {
+      pm.test("Vehicule créé(e) avec un id", () => {
         pm.response.to.have.status(200);
         pm.expect(pm.response.json().idVehicule).to.be.a("number");
       });
+      pm.collectionVariables.set("idVehicule", pm.response.json().idVehicule);

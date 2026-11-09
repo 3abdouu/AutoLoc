@@ -1,8 +1,34 @@
 $kind: collection
 name: AutoLoc API
+description: |-
+  CRUD des 9 entités (findAll, findById, create, update, deleteById). Lancer la collection dans l'ordre : les dossiers créent les données dont dépendent les suivants, le dernier dossier supprime tout en ordre inverse.
 variables:
   - key: base_url
     value: 'http://localhost:8080/api'
   - key: idAgence
     value: '1'
-    description: Rempli automatiquement par "1 - Ajouter agence"
+    description: Rempli automatiquement par "Create Agence"
+  - key: idEquipement
+    value: '1'
+    description: Rempli automatiquement par "Create Equipement"
+  - key: idClient
+    value: '1'
+    description: Rempli automatiquement par "Create Client"
+  - key: idEmploye
+    value: '1'
+    description: Rempli automatiquement par "Create Employe"
+  - key: idVehicule
+    value: '1'
+    description: Rempli automatiquement par "Create Vehicule"
+  - key: idReservation
+    value: '1'
+    description: Rempli automatiquement par "Create Reservation"
+  - key: idContrat
+    value: '1'
+    description: Rempli automatiquement par "Create Contrat"
+  - key: idPaiement
+    value: '1'
+    description: Rempli automatiquement par "Create Paiement"
+  - key: idMaintenance
+    value: '1'
+    description: Rempli automatiquement par "Create Maintenance"

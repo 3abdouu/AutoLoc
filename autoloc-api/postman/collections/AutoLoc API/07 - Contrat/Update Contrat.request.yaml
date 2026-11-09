@@ -1,0 +1,24 @@
+$kind: http-request
+method: PUT
+url: '{{base_url}}/contrats/{{idContrat}}'
+order: 4000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "dateSignature": "2026-11-30",
+      "montantTotal": 720.00,
+      "valide": true,
+      "reservation": { "idReservation": {{idReservation}} }
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Contrat modifié(e)", () => {
+        pm.response.to.have.status(200);
+        pm.expect(pm.response.json().idContrat).to.eql(Number(pm.collectionVariables.get("idContrat")));
+      });

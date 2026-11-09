@@ -1,0 +1,27 @@
+$kind: http-request
+method: POST
+url: '{{base_url}}/clients'
+order: 1000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "nom": "Ben Salah",
+      "prenom": "Amine",
+      "email": "amine{{$randomInt}}{{$randomInt}}@mail.tn",
+      "telephone": "22000000",
+      "numPermis": "P-{{$timestamp}}",
+      "dateInscription": "2026-11-01"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Client créé(e) avec un id", () => {
+        pm.response.to.have.status(200);
+        pm.expect(pm.response.json().idClient).to.be.a("number");
+      });
+      pm.collectionVariables.set("idClient", pm.response.json().idClient);

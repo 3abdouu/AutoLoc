@@ -18,4 +18,8 @@ scripts:
   - type: afterResponse
     language: text/javascript
     code: |-
+      pm.test("Agence créé(e) avec un id", () => {
+        pm.response.to.have.status(200);
+        pm.expect(pm.response.json().idAgence).to.be.a("number");
+      });
       pm.collectionVariables.set("idAgence", pm.response.json().idAgence);

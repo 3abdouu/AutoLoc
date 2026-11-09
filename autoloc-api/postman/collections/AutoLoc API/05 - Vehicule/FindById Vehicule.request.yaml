@@ -1,0 +1,12 @@
+$kind: http-request
+method: GET
+url: '{{base_url}}/vehicules/{{idVehicule}}'
+order: 3000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Vehicule trouvé(e) par id", () => {
+        pm.response.to.have.status(200);
+        pm.expect(pm.response.json().idVehicule).to.eql(Number(pm.collectionVariables.get("idVehicule")));
+      });

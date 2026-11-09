@@ -1,0 +1,9 @@
+$kind: http-request
+method: DELETE
+url: '{{base_url}}/employes/{{idEmploye}}'
+order: 6000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Employe supprimé(e)", () => pm.response.to.have.status(200));

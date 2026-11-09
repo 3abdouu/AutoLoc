@@ -1,0 +1,24 @@
+$kind: http-request
+method: PUT
+url: '{{base_url}}/paiements/{{idPaiement}}'
+order: 4000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "montant": 520.00,
+      "datePaiement": "2026-12-07",
+      "modePaiement": "ESPECES",
+      "contrat": { "idContrat": {{idContrat}} }
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Paiement modifié(e)", () => {
+        pm.response.to.have.status(200);
+        pm.expect(pm.response.json().idPaiement).to.eql(Number(pm.collectionVariables.get("idPaiement")));
+      });

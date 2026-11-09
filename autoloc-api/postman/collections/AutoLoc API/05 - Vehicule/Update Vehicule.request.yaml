@@ -1,0 +1,28 @@
+$kind: http-request
+method: PUT
+url: '{{base_url}}/vehicules/{{idVehicule}}'
+order: 4000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "immatriculation": "{{$randomInt}} TUN {{$randomInt}}",
+      "marque": "Peugeot",
+      "modele": "2008",
+      "categorie": "SUV",
+      "tarifJournalier": 120.00,
+      "statut": "DISPONIBLE",
+      "agence": { "idAgence": {{idAgence}} },
+      "equipements": [ { "idEquipement": {{idEquipement}} } ]
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Vehicule modifié(e)", () => {
+        pm.response.to.have.status(200);
+        pm.expect(pm.response.json().idVehicule).to.eql(Number(pm.collectionVariables.get("idVehicule")));
+      });

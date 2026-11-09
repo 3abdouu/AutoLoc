@@ -1,0 +1,5 @@
+$kind: collection
+name: '10 - Suppressions'
+description: |-
+  deleteById de chaque entité, en ordre inverse des dépendances (clés étrangères).
+order: 10000

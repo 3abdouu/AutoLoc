@@ -1,0 +1,26 @@
+$kind: http-request
+method: PUT
+url: '{{base_url}}/clients/{{idClient}}'
+order: 4000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "nom": "Ben Salah",
+      "prenom": "Amine",
+      "email": "amine.bensalah{{$randomInt}}{{$randomInt}}@mail.tn",
+      "telephone": "98123456",
+      "numPermis": "P-{{$timestamp}}",
+      "dateInscription": "2026-11-01"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Client modifié(e)", () => {
+        pm.response.to.have.status(200);
+        pm.expect(pm.response.json().idClient).to.eql(Number(pm.collectionVariables.get("idClient")));
+      });
